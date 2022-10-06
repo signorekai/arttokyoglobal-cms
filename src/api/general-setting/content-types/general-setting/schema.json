@@ -1,0 +1,27 @@
+{
+  "kind": "singleType",
+  "collectionName": "general_settings",
+  "info": {
+    "singularName": "general-setting",
+    "pluralName": "general-settings",
+    "displayName": "General settings",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "featuredCollections": {
+      "displayName": "Featured Collections",
+      "type": "component",
+      "repeatable": true,
+      "component": "layout.featured-collections"
+    },
+    "collections": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::collection.collection"
+    }
+  }
+}

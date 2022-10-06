@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_layout_featured_collections",
+  "info": {
+    "displayName": "Featured Collections"
+  },
+  "options": {},
+  "attributes": {
+    "collection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::collection.collection"
+    }
+  }
+}
