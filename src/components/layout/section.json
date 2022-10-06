@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_layout_sections",
+  "info": {
+    "displayName": "Accordion",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "Items": {
+      "displayName": "AccordionItems",
+      "type": "component",
+      "repeatable": true,
+      "component": "layout.accordion-items"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tokens",
+  "info": {
+    "singularName": "token",
+    "pluralName": "tokens",
+    "displayName": "Token"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "collection": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::collection.collection",
+      "inversedBy": "tokens"
+    },
+    "title": {
+      "type": "string"
+    },
+    "attributes": {
+      "type": "json"
+    },
+    "contractAddress": {
+      "type": "string"
+    }
+  }
+}

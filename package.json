@@ -1,0 +1,33 @@
+{
+  "name": "atg-cms",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Admin panel for Art Tokyo Global",
+  "scripts": {
+    "dev": "strapi develop",
+    "start": "strapi start",
+    "build": "strapi build",
+    "strapi": "strapi"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "@ckeditor/strapi-plugin-ckeditor": "0.0.2",
+    "@strapi/plugin-i18n": "4.4.1",
+    "@strapi/plugin-users-permissions": "4.4.1",
+    "@strapi/provider-upload-aws-s3": "^4.4.1",
+    "@strapi/strapi": "4.4.1",
+    "better-sqlite3": "7.4.6",
+    "strapi-plugin-duplicate-button": "^1.0.4"
+  },
+  "author": {
+    "name": "Alfred Lau"
+  },
+  "strapi": {
+    "uuid": "87cf7caf-941c-48a0-9c20-c90967c75af8"
+  },
+  "engines": {
+    "node": ">=14.19.1 <=18.x.x",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}
