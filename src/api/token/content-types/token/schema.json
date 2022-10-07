@@ -4,10 +4,11 @@
   "info": {
     "singularName": "token",
     "pluralName": "tokens",
-    "displayName": "Token"
+    "displayName": "Token",
+    "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -20,11 +21,26 @@
     "title": {
       "type": "string"
     },
-    "attributes": {
+    "tokenAttributes": {
       "type": "json"
     },
-    "contractAddress": {
+    "tokenId": {
       "type": "string"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title"
     }
   }
 }

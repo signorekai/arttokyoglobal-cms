@@ -12,12 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "featuredCollections": {
-      "displayName": "Featured Collections",
-      "type": "component",
-      "repeatable": true,
-      "component": "layout.featured-collections"
-    },
     "collections": {
       "type": "relation",
       "relation": "oneToMany",
