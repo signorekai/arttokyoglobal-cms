@@ -19,7 +19,7 @@ module.exports = {
       ref: "origin/main",
       repo: "git@gitlab.com:alfredlau/art-tokyo-global-cms.git",
       path: "/var/www/cms",
-      "post-setup": "npm run build:prod",
+      "post-setup": "npm install && npm run build:prod",
       "post-deploy":
         "npm install && npm run build:prod && pm2 startOrRestart ecosystem.config.js --env production",
     },
@@ -30,7 +30,6 @@ module.exports = {
       ref: "origin/main",
       repo: "git@gitlab.com:alfredlau/art-tokyo-global-cms.git",
       path: "/var/www/cms",
-      "post-setup": "npm run build:prod",
       "post-deploy": "pm2 startOrRestart ecosystem.config.js --env production",
     },
   },
