@@ -30,16 +30,13 @@ module.exports = ({ env }) => ({
   },
   email: {
     config: {
-      provider: "sendmail",
+      provider: "sendgrid",
+      providerOptions: {
+        apiKey: env("SENDGRID_API_KEY"),
+      },
       settings: {
         defaultFrom: "no-reply@arttokyoglobal.io",
         defaultReplyTo: "admin@arttokyoglobal.io",
-      },
-      providerOptions: {
-        dkim: {
-          privateKey: privateKey,
-          keySelector: "default",
-        },
       },
     },
   },
