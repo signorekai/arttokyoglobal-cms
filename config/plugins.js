@@ -25,6 +25,22 @@ module.exports = ({ env }) => ({
       },
     },
   },
+  email: {
+    config: {
+      provider: "sendmail",
+      settings: {
+        defaultFrom: "no-reply@arttokyoglobal.io",
+        defaultReplyTo: "admin@arttokyoglobal.io",
+      },
+      providerOptions: {
+        dkim: {
+          privateKey: "/dkim-private.pem",
+          keySelector:
+            "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDM6qa8xIgNs3JCwEE2qOp/5gx7 za/ZjdmEfPx8zGyQ6sZi37JSwuoDrOgdjok5xukOV6vBNrQdrtVHl2JS4XRAIU1l IVM6ECsJjmz9n0CZU7fvkYoAM7UpirnJ8h45cB9AfUYq3qmsBtpRS3VhaEqHUSCg NMYWvRDR8DWobvMxOwIDAQAB",
+        },
+      },
+    },
+  },
   transformer: {
     enabled: true,
     config: {
