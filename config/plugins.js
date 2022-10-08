@@ -1,4 +1,5 @@
 const fs = require("fs");
+const privateKey = fs.readFileSync("./dkim-private.pem", "utf8");
 
 module.exports = ({ env }) => ({
   ckeditor: true,
@@ -36,7 +37,7 @@ module.exports = ({ env }) => ({
       },
       providerOptions: {
         dkim: {
-          privateKey: fs.readFileSync("./dkim-private.pem", "utf8"),
+          privateKey: privateKey,
           keySelector: "default",
         },
       },
