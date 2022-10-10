@@ -64,6 +64,10 @@
     "totalTokens": {
       "type": "integer",
       "required": true
+    },
+    "ABI": {
+      "type": "json",
+      "private": true
     }
   }
 }
