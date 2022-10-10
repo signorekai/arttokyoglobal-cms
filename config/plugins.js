@@ -5,7 +5,6 @@ module.exports = ({ env }) => ({
   ckeditor: true,
   "duplicate-button": true,
   "random-sort": true,
-  "vercel-deploy": true,
   upload: {
     config: {
       provider: "aws-s3",
