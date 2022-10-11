@@ -11,12 +11,12 @@ module.exports = {
 
     if (entry.contractAddress !== params.data.contractAddress) {
       const ABI = await strapi
-        .service("api::collection.alchemy")
+        .service("api::collection.web3")
         .getABI(params.data.contractAddress);
 
       if (ABI) {
         const updates = await strapi
-          .service("api::collection.alchemy")
+          .service("api::collection.web3")
           .readContract(params.data.contractAddress, ABI);
 
         event.params.data = {
@@ -25,11 +25,13 @@ module.exports = {
           ...updates,
         };
       }
+      event.state.changedContractAddress = true;
     }
 
     return event;
   },
   async afterUpdate(event) {
     const { state } = event;
+    console.log("did contract change", state.changedContractAddress);
   },
 };
