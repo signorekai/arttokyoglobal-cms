@@ -41,6 +41,13 @@
     "slug": {
       "type": "uid",
       "targetField": "title"
+    },
+    "cachedData": {
+      "type": "json",
+      "private": true
+    },
+    "ipfsUri": {
+      "type": "string"
     }
   }
 }
