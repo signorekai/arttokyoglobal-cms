@@ -49,6 +49,11 @@ module.exports = ({ strapi }) => ({
       if (contract.artistId) {
         updatedInfo.artist = Number(await contract.artistId());
       }
+
+      if (contract.cost) {
+        updatedInfo.mintPrice =
+          Number(await contract.cost()) / 1000000000000000000;
+      }
     }
 
     return updatedInfo;
