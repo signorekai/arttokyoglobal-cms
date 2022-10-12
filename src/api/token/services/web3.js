@@ -66,7 +66,7 @@ module.exports = ({ strapi }) => ({
   },
   async fetchMetadata(CID, file) {
     const gateway = process.env.IPFS_GATEWAY;
-    console.log(`${gateway}/ipfs/${CID}/${file}`);
+    console.log(`ipfs://${CID}/${file}`);
 
     const result = await fetch(`${gateway}/ipfs/${CID}/${file}`);
     let json = {};
