@@ -86,7 +86,7 @@ module.exports = ({ strapi }) => ({
     return json;
   },
 
-  async upsertMetadata(data, collectionId) {
+  async upsertMetadata(data, collectionId = 0) {
     const existingToken = await strapi.entityService.findMany(
       "api::token.token",
       {
@@ -97,15 +97,20 @@ module.exports = ({ strapi }) => ({
         },
       }
     );
+    const updateData = {
+      cachedData: data,
+    };
+
+    if (collectionId !== 0) {
+      updateData.collection = Number(collectionId);
+    }
+
     let result = {};
     if (existingToken.length === 0) {
       // token doesn't exist, create new!
       result = await strapi.entityService.create("api::token.token", {
         populate: ["collection"],
-        data: {
-          cachedData: data,
-          collection: Number(collectionId),
-        },
+        data: updateData,
       });
     } else {
       // token already exist, update!
@@ -114,10 +119,7 @@ module.exports = ({ strapi }) => ({
         existingToken[0].id,
         {
           populate: ["collection"],
-          data: {
-            cachedData: data,
-            collection: Number(collectionId),
-          },
+          data: updateData,
         }
       );
     }
