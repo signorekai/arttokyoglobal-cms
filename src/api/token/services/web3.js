@@ -1,5 +1,6 @@
 const fetch = require("node-fetch");
 const Bottleneck = require("bottleneck");
+const FormData = require("form-data");
 
 module.exports = ({ strapi }) => ({
   parseTokenMetadata(data) {
@@ -10,6 +11,26 @@ module.exports = ({ strapi }) => ({
       tokenId: `${data.token_id}`,
       mediaIpfsUri: data.image.substring(7),
     };
+  },
+  async downloadImageAndUpload(path, fileName) {
+    console.log(path);
+    const response = await fetch(path);
+    const arrayBuffer = await response.arrayBuffer();
+    const img = Buffer.from(arrayBuffer);
+
+    var form = new FormData();
+    form.append("files", img, fileName);
+
+    const formResponse = await fetch(`${process.env.CLIENT_URL}/api/upload`, {
+      method: "post",
+      headers: {
+        Authorization: `Bearer ${process.env.UPLOAD_TOKEN}`,
+      },
+      body: form,
+    });
+
+    const uploaded = await formResponse.json();
+    return uploaded;
   },
   async fetchMetadataAndUpsert(CID, limit, collection) {
     try {
