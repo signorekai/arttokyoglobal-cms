@@ -5,6 +5,7 @@
   "description": "Admin panel for Art Tokyo Global",
   "scripts": {
     "dev": "strapi develop",
+    "dev:admin": "strapi develop --watch-admin --browser \"false\"",
     "start": "strapi start",
     "build": "strapi build",
     "build:prod": "NODE_ENV=production strapi build",
