@@ -48,6 +48,9 @@
     },
     "ipfsUri": {
       "type": "string"
+    },
+    "mediaIpfsUri": {
+      "type": "string"
     }
   }
 }
