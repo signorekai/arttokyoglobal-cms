@@ -5,9 +5,12 @@ const slugify = require("slugify");
 
 module.exports = {
   async beforeUpdate(event) {
+    console.log("beforeUpdate");
     const { data, where } = event.params;
     const id = where.id;
-    const entry = await strapi.entityService.findOne("api::token.token", id);
+    const entry = await strapi.entityService.findOne("api::token.token", id, {
+      populate: "image",
+    });
 
     event.state.changedCachedData = false;
 
@@ -18,35 +21,17 @@ module.exports = {
         ...strapi.service("api::token.web3").parseTokenMetadata(cachedData),
       };
     }
-
-    if (data.mediaIpfsUri !== entry.mediaIpfsUri) {
+    if (data.mediaIpfsUri !== entry.mediaIpfsUri && !!entry.image === false) {
       event.state.changedMediaIpfs = true;
-      console.log(`ipfs://${event.params.data.mediaIpfsUri}`);
 
-      const response = await fetch(
-        `${process.env.IPFS_GATEWAY}/ipfs/${event.params.data.mediaIpfsUri}`
-      );
-      const arrayBuffer = await response.arrayBuffer();
-      const img = Buffer.from(arrayBuffer);
-
-      var form = new FormData();
-      form.append(
-        "files",
-        img,
-        `${event.params.data.title}.${
-          event.params.data.mediaIpfsUri.split(".")[1]
-        }`
-      );
-
-      const formResponse = await fetch(`${process.env.CLIENT_URL}/api/upload`, {
-        method: "post",
-        headers: {
-          Authorization: `Bearer ${process.env.UPLOAD_TOKEN}`,
-        },
-        body: form,
-      });
-
-      const uploaded = await formResponse.json();
+      const uploaded = await strapi
+        .service("api::token.web3")
+        .downloadImageAndUpload(
+          `${process.env.IPFS_GATEWAY}/ipfs/${event.params.data.mediaIpfsUri}`,
+          `${event.params.data.title}.${
+            event.params.data.mediaIpfsUri.split(".")[1]
+          }`
+        );
       event.params.data.image = uploaded[0].id;
     }
 
@@ -62,6 +47,7 @@ module.exports = {
     const { state, result } = event;
   },
   async beforeCreate(event) {
+    console.log("beforeCreate");
     const { params } = event;
     if (params.data.cachedData) {
       const { cachedData } = params.data;
@@ -75,6 +61,18 @@ module.exports = {
       event.params.data.slug = `${slugify(event.params.data.title, {
         lower: true,
       })}-${uuidv4()}`;
+    }
+
+    if (event.params.data.mediaIpfsUri && !!event.params.data.image === false) {
+      const uploaded = await strapi
+        .service("api::token.web3")
+        .downloadImageAndUpload(
+          `${process.env.IPFS_GATEWAY}/ipfs/${event.params.data.mediaIpfsUri}`,
+          `${event.params.data.title}.${
+            event.params.data.mediaIpfsUri.split(".")[1]
+          }`
+        );
+      event.params.data.image = uploaded[0].id;
     }
 
     return event;
