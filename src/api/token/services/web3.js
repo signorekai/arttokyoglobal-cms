@@ -12,6 +12,13 @@ module.exports = ({ strapi }) => ({
       mediaIpfsUri: data.image.substring(7),
     };
   },
+  getLimiter() {
+    const limiter = new Bottleneck({
+      minTime: 100,
+      maxConcurrent: 4,
+    });
+    return limiter;
+  },
   async downloadImageAndUpload(path, fileName) {
     console.log(path);
     const response = await fetch(path);
@@ -30,6 +37,7 @@ module.exports = ({ strapi }) => ({
     });
 
     const uploaded = await formResponse.json();
+
     return uploaded;
   },
   async fetchMetadataAndUpsert(CID, limit, collection) {
@@ -38,18 +46,25 @@ module.exports = ({ strapi }) => ({
         .service("api::token.web3")
         .fetchAllMetadata(CID, limit);
 
-      const updatedTokens = await Promise.all(
-        tokensMetadata.map(async (metadata) => {
-          if (metadata && metadata.ok) {
-            const result = await strapi
-              .service("api::token.web3")
-              .upsertMetadata(metadata, collection.id);
-            return Promise.resolve(result);
-          } else {
-            return Promise.resolve({ success: false, ...metadata });
-          }
-        })
-      );
+      const limiter = await strapi.service("api::token.web3").getLimiter();
+
+      const promises = tokensMetadata.map((metadata) => {
+        return limiter.schedule(
+          () =>
+            new Promise(async (resolve) => {
+              if (metadata && metadata.ok) {
+                const result = await strapi
+                  .service("api::token.web3")
+                  .upsertMetadata(metadata, collection.id);
+                return resolve(result);
+              } else {
+                return resolve({ success: false, ...metadata });
+              }
+            })
+        );
+      });
+
+      const updatedTokens = await Promise.all(promises);
 
       return updatedTokens;
     } catch (err) {
