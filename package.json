@@ -25,10 +25,13 @@
     "better-sqlite3": "7.4.6",
     "bottleneck": "^2.19.5",
     "ethers": "^5.7.1",
+    "form-data": "^4.0.0",
     "node-fetch": "^2.6.7",
+    "slugify": "^1.6.5",
     "strapi-plugin-duplicate-button": "^1.0.4",
     "strapi-plugin-random-sort": "0.0.3",
-    "strapi-plugin-transformer": "^2.1.0"
+    "strapi-plugin-transformer": "^2.1.0",
+    "uuid": "^9.0.0"
   },
   "author": {
     "name": "Alfred Lau"
