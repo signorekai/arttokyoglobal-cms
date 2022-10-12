@@ -91,7 +91,7 @@ module.exports = createCoreController(
               console.log(`${contractAddress} - collection updated`);
 
               if (results.CID) {
-                strapi
+                await strapi
                   .service("api::token.web3")
                   .fetchMetadataAndUpsert(
                     results.CID,
