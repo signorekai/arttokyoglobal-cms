@@ -1,33 +1,29 @@
 module.exports = {
   async beforeUpdate(event) {
-    const { params } = event;
-    const id = params.where.id;
+    const { data, where } = event.params;
+    const id = where.id;
     const entry = await strapi.entityService.findOne("api::token.token", id);
 
     event.state.changedCachedData = false;
 
-    if (
-      JSON.stringify(entry.cachedData) !==
-      JSON.stringify(params.data.cachedData)
-    ) {
-      event.state.changedCachedData = true;
-
-      const { cachedData } = params.data;
-
+    const { cachedData } = data;
+    if (cachedData) {
       event.params.data = {
         ...event.params.data,
-        ...getNewAttributes(cachedData),
+        ...strapi.service("api::token.web3").parseTokenMetadata(cachedData),
       };
     }
 
-    if (params.data.mediaIpfsUri !== entry.mediaIpfsUri) {
+    if (data.mediaIpfsUri !== entry.mediaIpfsUri) {
       event.state.changedMediaIpfs = true;
-      event.params.data = {
-        ...event.params.data,
-        mediaIpfsUri: getNewAttributes(
-          params.data.cachedData ? params.data.cachedData : entry.cachedData
-        ).mediaIpfsUri,
-      };
+      // event.params.data = {
+      //   ...event.params.data,
+      //   mediaIpfsUri: strapi
+      //     .service("api::token.web3")
+      //     .parseTokenMetadata(
+      //       params.data.cachedData ? params.data.cachedData : entry.cachedData
+      //     ).mediaIpfsUri,
+      // };
     }
 
     return event;
@@ -41,7 +37,7 @@ module.exports = {
       const { cachedData } = params.data;
       event.params.data = {
         ...event.params.data,
-        ...getNewAttributes(cachedData),
+        ...strapi.service("api::token.web3").parseTokenMetadata(cachedData),
       };
     }
     return event;
