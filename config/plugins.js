@@ -3,6 +3,10 @@ const privateKey = fs.readFileSync("./dkim-private.pem", "utf8");
 
 module.exports = ({ env }) => ({
   ckeditor: true,
+  "fetch-metadata": {
+    enabled: true,
+    resolve: "./src/plugins/fetch-metadata",
+  },
   "duplicate-button": true,
   "random-sort": true,
   upload: {
