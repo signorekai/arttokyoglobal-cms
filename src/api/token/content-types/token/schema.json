@@ -51,6 +51,10 @@
     },
     "mediaIpfsUri": {
       "type": "string"
+    },
+    "minted": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
