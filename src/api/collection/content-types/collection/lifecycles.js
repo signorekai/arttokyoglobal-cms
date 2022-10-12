@@ -1,5 +1,6 @@
 module.exports = {
   async beforeUpdate(event) {
+    console.log("before update");
     const { params } = event;
     const id = params.where.id;
     const entry = await strapi.entityService.findOne(
@@ -9,7 +10,10 @@ module.exports = {
 
     event.state.changedContractAddress = false;
 
-    if (entry.contractAddress !== params.data.contractAddress) {
+    if (
+      params.data.contractAddress &&
+      entry.contractAddress !== params.data.contractAddress
+    ) {
       const ABI = await strapi
         .service("api::collection.web3")
         .getABI(params.data.contractAddress);
@@ -31,7 +35,14 @@ module.exports = {
     return event;
   },
   async afterUpdate(event) {
-    const { state } = event;
+    const { state, result } = event;
+    console.log("after update");
+    if (state.changedContractAddress && result.contractAddress && result.CID) {
+      console.log(`REFETCHING TOKEN METADATA!`);
+      await strapi
+        .service("api::token.web3")
+        .fetchMetadataAndUpsert(result.CID, result.totalTokens, result);
+    }
     console.log("did contract change", state.changedContractAddress);
   },
 };
