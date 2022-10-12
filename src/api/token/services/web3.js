@@ -2,6 +2,15 @@ const fetch = require("node-fetch");
 const Bottleneck = require("bottleneck");
 
 module.exports = ({ strapi }) => ({
+  parseTokenMetadata(data) {
+    return {
+      ipfsUri: data.fileName,
+      title: data.name,
+      tokenAttributes: data.attributes,
+      tokenId: `${data.token_id}`,
+      mediaIpfsUri: data.image.substring(7),
+    };
+  },
   async fetchMetadataAndUpsert(CID, limit, collection) {
     try {
       const tokensMetadata = await strapi
@@ -91,25 +100,27 @@ module.exports = ({ strapi }) => ({
     let result = {};
     if (existingToken.length === 0) {
       // token doesn't exist, create new!
-      console.log(`${data.fileName} doesn't exist`);
       result = await strapi.entityService.create("api::token.token", {
+        populate: ["collection"],
         data: {
           cachedData: data,
+          collection: Number(collectionId),
         },
       });
     } else {
       // token already exist, update!
-      console.log(`${data.fileName} exists`);
       result = await strapi.entityService.update(
         "api::token.token",
         existingToken[0].id,
         {
+          populate: ["collection"],
           data: {
             cachedData: data,
+            collection: Number(collectionId),
           },
         }
       );
     }
-    return result.id;
+    return result;
   },
 });

@@ -1,14 +1,3 @@
-function getNewAttributes(data) {
-  return {
-    ipfsUri: data.fileName,
-    title: data.name,
-    tokenAttributes: data.attributes,
-    tokenId: `${data.token_id}`,
-    collection: data.project_id,
-    mediaIpfsUri: data.image.substring(7),
-  };
-}
-
 module.exports = {
   async beforeUpdate(event) {
     const { params } = event;
