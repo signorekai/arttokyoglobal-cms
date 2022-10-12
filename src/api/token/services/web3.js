@@ -36,7 +36,9 @@ module.exports = ({ strapi }) => ({
       body: form,
     });
 
-    console.log(formResponse);
+    if (formResponse.status !== 200) {
+      console.log(formResponse.status, formResponse.statusText);
+    }
 
     const uploaded = await formResponse.json();
 
