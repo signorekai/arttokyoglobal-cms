@@ -71,7 +71,7 @@ module.exports = {
       };
     }
 
-    if (!data.slug) {
+    if (!event.params.data.slug) {
       event.params.data.slug = `${slugify(event.params.data.title, {
         lower: true,
       })}-${uuidv4()}`;
