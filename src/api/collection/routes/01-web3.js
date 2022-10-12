@@ -2,7 +2,7 @@ module.exports = {
   routes: [
     {
       method: "GET",
-      path: `/collections/fetch/${process.env.WEB3_UUID}`,
+      path: "/collections/fetch/4c590453-68e8-49a5-b94b-3aababb9e5e2",
       handler: "collection.fetchAllData",
       config: {
         auth: false,
@@ -11,7 +11,7 @@ module.exports = {
     {
       method: "GET",
       path: "GET",
-      path: `/collections/:id/fetch/${process.env.WEB3_UUID}`,
+      path: "/collections/:id/fetch/4c590453-68e8-49a5-b94b-3aababb9e5e2",
       handler: "collection.fetchData",
       config: { auth: false },
     },
