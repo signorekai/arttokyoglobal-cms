@@ -2,10 +2,24 @@ const fs = require("fs");
 const privateKey = fs.readFileSync("./dkim-private.pem", "utf8");
 
 module.exports = ({ env }) => ({
+  transformer: {
+    enabled: true,
+    config: {
+      prefix: "/api/",
+      responseTransforms: {
+        removeAttributesKey: true,
+        removeDataKey: true,
+      },
+    },
+  },
   ckeditor: true,
   "fetch-metadata": {
     enabled: true,
     resolve: "./src/plugins/fetch-metadata",
+  },
+  "webthree-auth": {
+    enabled: true,
+    resolve: "./src/plugins/strapi-webthree-auth-main",
   },
   "duplicate-button": true,
   "random-sort": true,
@@ -40,16 +54,6 @@ module.exports = ({ env }) => ({
       settings: {
         defaultFrom: "no-reply@arttokyoglobal.io",
         defaultReplyTo: "admin@arttokyoglobal.io",
-      },
-    },
-  },
-  transformer: {
-    enabled: true,
-    config: {
-      prefix: "/api/",
-      responseTransforms: {
-        removeAttributesKey: true,
-        removeDataKey: true,
       },
     },
   },
