@@ -89,6 +89,8 @@ module.exports = ({ strapi }) => ({
       files.push(`${x}.json`);
     }
 
+    // @todo try fetching _metadata.json first
+
     try {
       const tasks = files.map((file) =>
         limiter.schedule(() =>
