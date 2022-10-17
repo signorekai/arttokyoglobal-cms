@@ -44,7 +44,8 @@ module.exports = ({ strapi }) => ({
 
     return uploaded;
   },
-  async fetchMetadataAndUpsert(CID, limit, collection) {
+  // async fetchMetadataAndUpsert(CID, limit, collection) {
+  async fetchMetadataAndUpsert({ CID, limit, collection }) {
     try {
       const tokensMetadata = await strapi
         .service("api::token.web3")
@@ -53,6 +54,8 @@ module.exports = ({ strapi }) => ({
       const limiter = await strapi.service("api::token.web3").getLimiter();
 
       const promises = tokensMetadata.map((metadata) => {
+        metadata.minted = Number(metadata.token_id) <= collection.totalSupply;
+
         return limiter.schedule(
           () =>
             new Promise(async (resolve) => {
