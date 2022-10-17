@@ -69,10 +69,18 @@
       "type": "json"
     },
     "CID": {
-      "type": "string",
-      "private": true
+      "type": "string"
     },
     "totalSupply": {
+      "type": "integer"
+    },
+    "whitelistMintEnabled": {
+      "type": "boolean"
+    },
+    "dynamicStart": {
+      "type": "boolean"
+    },
+    "startDate": {
       "type": "integer"
     }
   }
