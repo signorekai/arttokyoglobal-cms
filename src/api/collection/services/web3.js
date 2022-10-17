@@ -67,6 +67,19 @@ module.exports = ({ strapi }) => ({
       if (contract.totalSupply) {
         updatedInfo.totalSupply = Number(await contract.totalSupply());
       }
+
+      if (contract.whitelistMintEnabled) {
+        updatedInfo.whitelistMintEnabled =
+          await contract.whitelistMintEnabled();
+      }
+
+      if (contract.dynamicStart) {
+        updatedInfo.dynamicStart = await contract.dynamicStart();
+      }
+
+      if (contract.getStartDate) {
+        updatedInfo.startDate = await contract.getStartDate();
+      }
     }
 
     return updatedInfo;

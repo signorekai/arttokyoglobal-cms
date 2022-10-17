@@ -31,7 +31,11 @@ module.exports = {
 
       const tokens = await strapi
         .service("api::token.web3")
-        .fetchMetadataAndUpsert(entry.CID, entry.totalTokens, entry);
+        .fetchMetadataAndUpsert({
+          CID: entry.CID,
+          limit: entry.totalTokens,
+          collection: entry,
+        });
 
       const tokenIDs = tokens.map((token) => token.id);
 
@@ -70,7 +74,11 @@ module.exports = {
 
     const tokens = await strapi
       .service("api::token.web3")
-      .fetchMetadataAndUpsert(entry.CID, entry.totalTokens, entry);
+      .fetchMetadataAndUpsert({
+        CID: entry.CID,
+        limit: entry.totalTokens,
+        collection: entry,
+      });
 
     event.result.tokens = tokens;
     return event;

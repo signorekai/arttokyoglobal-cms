@@ -5,6 +5,7 @@ const FormData = require("form-data");
 module.exports = ({ strapi }) => ({
   parseTokenMetadata(data) {
     return {
+      minted: data.minted,
       ipfsUri: data.fileName,
       title: data.name,
       tokenAttributes: data.attributes,
@@ -15,7 +16,7 @@ module.exports = ({ strapi }) => ({
   getLimiter() {
     const limiter = new Bottleneck({
       minTime: 100,
-      maxConcurrent: 4,
+      maxConcurrent: 5,
     });
     return limiter;
   },
