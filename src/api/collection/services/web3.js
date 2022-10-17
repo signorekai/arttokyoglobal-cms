@@ -51,6 +51,7 @@ module.exports = ({ strapi }) => ({
       if (contract.cost) {
         updatedInfo.mintPrice = Number(await contract.cost());
       }
+
       if (contract.uriPrefix) {
         // const re = new RegExp(
         //   /^ipfs:\/\/(Qm[1-9A-HJ-NP-Za-km-z]{44,}|b[A-Za-z2-7]{58,}|B[A-Z2-7]{58,}|z[1-9A-HJ-NP-Za-km-z]{48,}|F[0-9A-F]{50,})\/$/
@@ -61,6 +62,10 @@ module.exports = ({ strapi }) => ({
         if (results.containsCid) {
           updatedInfo.CID = results.cid;
         }
+      }
+
+      if (contract.totalSupply) {
+        updatedInfo.totalSupply = Number(await contract.totalSupply());
       }
     }
 

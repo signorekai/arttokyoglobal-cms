@@ -71,6 +71,9 @@
     "CID": {
       "type": "string",
       "private": true
+    },
+    "totalSupply": {
+      "type": "integer"
     }
   }
 }
