@@ -27,7 +27,8 @@
         "MintingPaused",
         "FinishedMinting",
         "WhitelistOnly"
-      ]
+      ],
+      "default": "Upcoming"
     },
     "mintPrice": {
       "type": "float"
