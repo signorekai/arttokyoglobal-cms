@@ -22,9 +22,11 @@
     "status": {
       "type": "enumeration",
       "enum": [
+        "Upcoming",
         "CurrentlyMinting",
         "MintingPaused",
-        "FinishedMinting"
+        "FinishedMinting",
+        "WhitelistOnly"
       ]
     },
     "mintPrice": {

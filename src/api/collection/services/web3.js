@@ -68,17 +68,32 @@ module.exports = ({ strapi }) => ({
         updatedInfo.totalSupply = Number(await contract.totalSupply());
       }
 
-      if (contract.whitelistMintEnabled) {
-        updatedInfo.whitelistMintEnabled =
-          await contract.whitelistMintEnabled();
-      }
-
-      if (contract.dynamicStart) {
-        updatedInfo.dynamicStart = await contract.dynamicStart();
+      if (contract.getStartDate) {
+        updatedInfo.startDate = await contract.getStartDate();
       }
 
       if (contract.getStartDate) {
         updatedInfo.startDate = await contract.getStartDate();
+      }
+
+      if (contract.paused) {
+        const paused = await contract.paused();
+
+        if (paused) {
+          updatedInfo.status = "MintingPaused";
+        }
+      }
+
+      if (contract.whitelistMintEnabled) {
+        updatedInfo.whitelistMintEnabled =
+          await contract.whitelistMintEnabled();
+
+        if (
+          updatedInfo.hasOwnProperty("status") === false &&
+          updatedInfo.whitelistMintEnabled
+        ) {
+          updatedInfo.status = "WhitelistOnly";
+        }
       }
     }
 
