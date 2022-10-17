@@ -15,18 +15,14 @@ module.exports = createCoreController(
       const metadataUpdates = {};
       const result = await super.findOne(ctx);
       const { data } = result;
-
-      const ABI = await strapi
-        .service("api::collection.web3")
-        .getABI(data.attributes.contractAddress);
+      const { ABI, contractAddress } = data.attributes;
 
       if (ABI) {
         const updates = await strapi
           .service("api::collection.web3")
-          .readContract(data.attributes.contractAddress, ABI);
+          .readContract(contractAddress, ABI);
 
         metadataUpdates.data = {
-          ABI,
           ...updates,
         };
       }
@@ -39,19 +35,63 @@ module.exports = createCoreController(
 
       console.log(`${data.attributes.contractAddress} - collection updated`);
 
-      if (collectionUpdateRes.CID) {
-        collectionUpdateRes.tokenUpdates = await strapi
-          .service("api::token.web3")
-          .fetchMetadataAndUpsert(
-            collectionUpdateRes.CID,
-            data.attributes.totalTokens,
-            { ...data.attributes, id: data.id }
-          );
+      ctx.type = "application/json";
+      ctx.body = JSON.stringify(collectionUpdateRes);
+    },
+    async fetchABI(ctx) {
+      const updates = {};
+      const result = await super.findOne(ctx);
+      const { data } = result;
+      const { contractAddress } = data.attributes;
+
+      const ABI = await strapi
+        .service("api::collection.web3")
+        .getABI(data.attributes.contractAddress);
+
+      if (ABI) {
+        const updatedInfo = await strapi
+          .service("api::collection.web3")
+          .readContract(contractAddress, ABI);
+
+        updates.data = {
+          ...updatedInfo,
+          ABI,
+        };
       }
+
+      const collectionUpdateRes = await strapi.entityService.update(
+        "api::collection.collection",
+        data.id,
+        updates
+      );
+
+      console.log(`${data.attributes.contractAddress} - collection updated`);
 
       ctx.type = "application/json";
       ctx.body = JSON.stringify(collectionUpdateRes);
       // await strapi.entityService.update()
+    },
+    async fetchAllTokens(ctx) {
+      const result = await super.findOne(ctx);
+      const { data } = result;
+      const { CID, totalTokens } = data.attributes;
+      let updates = { success: false };
+
+      if (CID) {
+        updates = await strapi
+          .service("api::token.web3")
+          .fetchMetadataAndUpsert({
+            CID,
+            limit: totalTokens,
+            collection: {
+              ...data.attributes,
+              id: data.id,
+            },
+          });
+      }
+
+      ctx.type = "application/json";
+      ctx.body = JSON.stringify(updates);
     },
     async fetchAllData(ctx) {
       const collections = await strapi.entityService.findMany(
@@ -91,13 +131,11 @@ module.exports = createCoreController(
               console.log(`${contractAddress} - collection updated`);
 
               if (results.CID) {
-                await strapi
-                  .service("api::token.web3")
-                  .fetchMetadataAndUpsert(
-                    results.CID,
-                    results.totalTokens,
-                    results
-                  );
+                await strapi.service("api::token.web3").fetchMetadataAndUpsert({
+                  CID: results.CID,
+                  limit: results.totalTokens,
+                  collection: results,
+                });
               }
 
               console.log(
