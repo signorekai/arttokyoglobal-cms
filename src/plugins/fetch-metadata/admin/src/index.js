@@ -2,7 +2,9 @@ import { prefixPluginTranslations } from "@strapi/helper-plugin";
 import pluginPkg from "../../package.json";
 import pluginId from "./pluginId";
 import Initializer from "./components/Initializer";
-import FetchButton from "./components/FetchButton";
+import ContractButton from "./components/ContractButton";
+import TokensButton from "./components/TokensButton";
+import DataButton from "./components/DataButton";
 
 const name = pluginPkg.strapi.name;
 
@@ -18,8 +20,16 @@ export default {
 
   bootstrap(app) {
     app.injectContentManagerComponent("editView", "right-links", {
-      name: "FetchButton",
-      Component: FetchButton,
+      name: "ContractButton",
+      Component: ContractButton,
+    });
+    app.injectContentManagerComponent("editView", "right-links", {
+      name: "DataButton",
+      Component: DataButton,
+    });
+    app.injectContentManagerComponent("editView", "right-links", {
+      name: "TokensButton",
+      Component: TokensButton,
     });
   },
   async registerTrads({ locales }) {

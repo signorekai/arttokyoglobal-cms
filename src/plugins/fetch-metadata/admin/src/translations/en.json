@@ -1,4 +1,6 @@
 {
-  "components.fetch.button.default": "Fetch Metadata",
-  "components.fetch.button.loading": "Loading......"
+  "components.fetch.button.default": "Refetch ABI & Update",
+  "components.fetch.button.data": "Update from cached ABI",
+  "components.fetch.button.loading": "Loading......",
+  "components.fetch.button.tokens": "Fetch Tokens"
 }
