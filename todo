@@ -1,1 +1,3 @@
-[] configure nginx caching of /api - https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/#overview
+[] configure nginx caching of /api 
+   https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/#overview
+  [] add purging of cache to services.collection.web3 routes
