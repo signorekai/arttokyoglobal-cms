@@ -8,6 +8,7 @@ module.exports = (config, webpack) => {
   config.plugins.push(
     new webpack.DefinePlugin({
       "process.env.CLIENT_URL": JSON.stringify(process.env.CLIENT_URL),
+      "process.env.FRONTEND_API": JSON.stringify(process.env.FRONTEND_API),
     })
   );
 
