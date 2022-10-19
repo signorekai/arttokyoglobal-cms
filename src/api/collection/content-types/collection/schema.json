@@ -85,6 +85,9 @@
     },
     "startDate": {
       "type": "integer"
+    },
+    "whitelistedAddresses": {
+      "type": "json"
     }
   }
 }
