@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import { Button } from "@strapi/design-system/Button";
 import Icon from "@strapi/icons/Download";
 import { useCMEditViewDataManager } from "@strapi/helper-plugin";
-import usePluginsQueryParams from "@strapi/admin/admin/src/content-manager/hooks/usePluginsQueryParams";
 
 const TokensButton = () => {
   const { modifiedData, layout } = useCMEditViewDataManager();
@@ -20,7 +19,12 @@ const TokensButton = () => {
     const uuid = "4c590453-68e8-49a5-b94b-3aababb9e5e2";
     setLoading(true);
     const response = await fetch(
-      `${process.env.CLIENT_URL}/api/${layout.info.pluralName}/${modifiedData.id}/tokens/${uuid}`
+      `${process.env.CLIENT_URL}/api/${layout.info.pluralName}/${modifiedData.id}/tokens/${uuid}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.FRONTEND_API}`,
+        },
+      }
     );
     setLoading(false);
     if (response.ok) {

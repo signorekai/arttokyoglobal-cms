@@ -20,7 +20,12 @@ const DataButton = () => {
     const uuid = "4c590453-68e8-49a5-b94b-3aababb9e5e2";
     setLoading(true);
     const response = await fetch(
-      `${process.env.CLIENT_URL}/api/${layout.info.pluralName}/${modifiedData.id}/data/${uuid}`
+      `${process.env.CLIENT_URL}/api/${layout.info.pluralName}/${modifiedData.id}/data/${uuid}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.FRONTEND_API}`,
+        },
+      }
     );
     setLoading(false);
     if (response.ok) {
