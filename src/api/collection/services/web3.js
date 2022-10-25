@@ -84,10 +84,7 @@ module.exports = ({ strapi }) => ({
         updatedInfo.whitelistMintEnabled =
           await contract.whitelistMintEnabled();
 
-        if (
-          updatedInfo.hasOwnProperty("status") === false &&
-          updatedInfo.whitelistMintEnabled
-        ) {
+        if (updatedInfo.whitelistMintEnabled === true) {
           updatedInfo.status = "WhitelistOnly";
         }
       }
