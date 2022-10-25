@@ -41,7 +41,7 @@ module.exports = ({ strapi }) => ({
       }
 
       if (contract.maxSupply) {
-        updatedInfo.totalTokens = await contract.maxSupply();
+        updatedInfo.totalTokens = Number(await contract.maxSupply());
       }
 
       if (contract.artistId) {
@@ -69,11 +69,7 @@ module.exports = ({ strapi }) => ({
       }
 
       if (contract.getStartDate) {
-        updatedInfo.startDate = await contract.getStartDate();
-      }
-
-      if (contract.getStartDate) {
-        updatedInfo.startDate = await contract.getStartDate();
+        updatedInfo.startDate = Number(await contract.getStartDate());
       }
 
       if (contract.paused) {
