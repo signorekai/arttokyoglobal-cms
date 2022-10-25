@@ -27,6 +27,8 @@ module.exports = createCoreController(
         };
       }
 
+      console.log(metadataUpdates);
+
       const collectionUpdateRes = await strapi.entityService.update(
         "api::collection.collection",
         data.id,
