@@ -88,6 +88,10 @@ module.exports = ({ strapi }) => ({
           updatedInfo.status = "WhitelistOnly";
         }
       }
+
+      if (updatedInfo.totalSupply === updatedInfo.maxSupply) {
+        updatedInfo.status = "FinishedMinting";
+      }
     }
 
     return updatedInfo;
