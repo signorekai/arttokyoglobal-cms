@@ -47,7 +47,7 @@ module.exports = {
     const { state, result } = event;
   },
   async beforeCreate(event) {
-    console.log("beforeCreate");
+    // console.log("beforeCreate");
     const { params } = event;
     if (params.data.cachedData) {
       const { cachedData } = params.data;
