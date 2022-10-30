@@ -26,7 +26,11 @@ module.exports = ({ strapi }) => ({
     return ABI;
   },
 
-  async readContract(contractAddress, ABI) {
+  async readContract(contractAddress, ABI, options) {
+    const opts = {
+      overwriteDescription: false,
+      ...options,
+    };
     const provider = new ethers.providers.AlchemyProvider(
       "goerli",
       process.env.ALCHEMY_API_KEY
@@ -36,6 +40,10 @@ module.exports = ({ strapi }) => ({
 
     const contract = new ethers.Contract(contractAddress, ABI, provider);
     if (contract) {
+      if (opts.overwriteDescription) {
+        updatedInfo.description = await contract.projDescription();
+      }
+
       if (contract.name) {
         updatedInfo.title = await contract.name();
       }

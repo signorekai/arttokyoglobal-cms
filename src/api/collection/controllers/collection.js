@@ -20,14 +20,16 @@ module.exports = createCoreController(
       if (ABI) {
         const updates = await strapi
           .service("api::collection.web3")
-          .readContract(contractAddress, ABI);
+          .readContract(contractAddress, ABI, {
+            overwriteDescription:
+              typeof data.description === "undefined" ||
+              data.description.length === 0,
+          });
 
         metadataUpdates.data = {
           ...updates,
         };
       }
-
-      console.log(metadataUpdates);
 
       const collectionUpdateRes = await strapi.entityService.update(
         "api::collection.collection",
