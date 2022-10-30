@@ -49,7 +49,7 @@ const DataButton = () => {
               })
             : formatMessage({
                 id: "fetch-button.components.fetch.button.data",
-                defaultMessage: "Update from cached ABI",
+                defaultMessage: "Update Collection from Contract",
               })}
         </Button>
       )}
