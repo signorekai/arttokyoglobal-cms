@@ -16,6 +16,18 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::collection.collection"
+    },
+    "splashHeader": {
+      "type": "string"
+    },
+    "splashBody": {
+      "type": "string"
+    },
+    "splashButtonText": {
+      "type": "string"
+    },
+    "splashButtonUri": {
+      "type": "string"
     }
   }
 }
