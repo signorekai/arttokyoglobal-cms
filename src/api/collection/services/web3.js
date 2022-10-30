@@ -97,6 +97,30 @@ module.exports = ({ strapi }) => ({
     return updatedInfo;
   },
 
+  async deleteAllTokens(tokens) {
+    const limiter = new Bottleneck({
+      minTime: 100,
+      maxConcurrent: 5,
+    });
+
+    try {
+      const tasks = tokens.map((token) =>
+        limiter.schedule(() => {
+          console.log(token.id);
+          return strapi.entityService.delete(
+            "api::token.token",
+            Number(token.id)
+          );
+        })
+      );
+      const results = await Promise.all(tasks);
+      return results;
+    } catch (err) {
+      limiter.stop();
+      return {};
+    }
+  },
+
   async getAllTokenMetadata(CID, limit) {
     console.log(`${CID} - getting all ${limit} JSONs`);
 

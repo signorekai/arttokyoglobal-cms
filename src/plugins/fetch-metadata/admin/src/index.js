@@ -5,6 +5,7 @@ import Initializer from "./components/Initializer";
 import ContractButton from "./components/ContractButton";
 import TokensButton from "./components/TokensButton";
 import DataButton from "./components/DataButton";
+import DeleteButton from "./components/DeleteButton";
 
 const name = pluginPkg.strapi.name;
 
@@ -26,6 +27,10 @@ export default {
     app.injectContentManagerComponent("editView", "right-links", {
       name: "DataButton",
       Component: DataButton,
+    });
+    app.injectContentManagerComponent("editView", "right-links", {
+      name: "DeleteButton",
+      Component: DeleteButton,
     });
     app.injectContentManagerComponent("editView", "right-links", {
       name: "TokensButton",

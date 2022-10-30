@@ -1,6 +1,7 @@
 {
   "components.fetch.button.default": "Refetch ABI & Update",
-  "components.fetch.button.data": "Update from cached ABI",
+  "components.fetch.button.data": "Update Collection from Contract",
   "components.fetch.button.loading": "Loading......",
-  "components.fetch.button.tokens": "Fetch Tokens"
+  "components.fetch.button.tokens": "Fetch Token JSON from CID",
+  "components.fetch.button.delete": "Delete All Tokens Data"
 }

@@ -95,6 +95,22 @@ module.exports = createCoreController(
       ctx.type = "application/json";
       ctx.body = JSON.stringify(updates);
     },
+    async deleteAllTokens(ctx) {
+      const entry = await strapi.entityService.findOne(
+        "api::collection.collection",
+        ctx.params.id,
+        {
+          populate: ["tokens"],
+        }
+      );
+      const { tokens } = entry;
+
+      const results = await strapi
+        .service("api::collection.web3")
+        .deleteAllTokens(tokens);
+      ctx.type = "application/json";
+      ctx.body = JSON.stringify(results);
+    },
     async fetchAllData(ctx) {
       const collections = await strapi.entityService.findMany(
         "api::collection.collection",
