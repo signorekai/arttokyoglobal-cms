@@ -8,7 +8,7 @@ module.exports = ({ strapi }) => ({
       minted: data.minted,
       ipfsUri: data.fileName,
       title: data.name,
-      tokenAttributes: data.attributes,
+      tokenAttributes: data.rarity.traits || data.attributes,
       tokenId: `${data.token_id}`,
       mediaIpfsUri: data.image.substring(7),
     };
