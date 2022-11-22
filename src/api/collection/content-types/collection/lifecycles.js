@@ -29,17 +29,19 @@ module.exports = {
         };
       }
 
-      const tokens = await strapi
-        .service("api::token.web3")
-        .fetchMetadataAndUpsert({
-          CID: entry.CID,
-          limit: entry.totalTokens,
-          collection: entry,
-        });
+      if (entry.CID && entry.CID.length > 0 && entry.CID !== null) {
+        const tokens = await strapi
+          .service("api::token.web3")
+          .fetchMetadataAndUpsert({
+            CID: entry.CID,
+            limit: entry.totalTokens,
+            collection: entry,
+          });
 
-      const tokenIDs = tokens.map((token) => token.id);
+        const tokenIDs = tokens.map((token) => token.id);
 
-      data.tokens = tokenIDs;
+        data.tokens = tokenIDs;
+      }
     }
 
     return event;
