@@ -32,7 +32,7 @@ module.exports = ({ strapi }) => ({
       ...options,
     };
     const provider = new ethers.providers.AlchemyProvider(
-      "goerli",
+      process.env.ETH_NETWORK,
       process.env.ALCHEMY_API_KEY
     );
 
