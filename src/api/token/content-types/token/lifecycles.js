@@ -5,9 +5,9 @@ const slugify = require("slugify");
 
 module.exports = {
   async beforeUpdate(event) {
-    console.log("beforeUpdate");
     const { data, where } = event.params;
     const id = where.id;
+    console.log("beforeUpdate", id);
     const entry = await strapi.entityService.findOne("api::token.token", id, {
       populate: "image",
     });
