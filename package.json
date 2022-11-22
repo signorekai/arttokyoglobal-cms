@@ -28,6 +28,7 @@
     "ethers": "^5.7.1",
     "form-data": "^4.0.0",
     "node-fetch": "^2.6.7",
+    "patch-package": "^6.5.0",
     "slugify": "^1.6.5",
     "strapi-plugin-duplicate-button": "^1.0.4",
     "strapi-plugin-random-sort": "0.0.3",
