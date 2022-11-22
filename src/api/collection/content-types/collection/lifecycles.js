@@ -73,7 +73,7 @@ module.exports = {
   async afterCreate(event) {
     const { result: entry } = event;
 
-    if (entry.CID && entry.CID.length > 0) {
+    if (entry.CID && entry.CID.length > 0 && entry.CID !== null) {
       const tokens = await strapi
         .service("api::token.web3")
         .fetchMetadataAndUpsert({
