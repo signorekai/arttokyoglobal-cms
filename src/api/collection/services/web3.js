@@ -19,7 +19,7 @@ function tryParseJSONObject(jsonString) {
 module.exports = ({ strapi }) => ({
   async getABI(contractAddress) {
     const response = await fetch(
-      `https://api-${process.env.ETH_NETWORK}.etherscan.io/api?module=contract&action=getabi&apikey=${process.env.ETHERSCAN_API_KEY}&address=${contractAddress}`
+      `https://${process.env.ETHERSCAN_NETWORK}.etherscan.io/api?module=contract&action=getabi&apikey=${process.env.ETHERSCAN_API_KEY}&address=${contractAddress}`
     );
     const { result } = await response.json();
     const ABI = tryParseJSONObject(result);
