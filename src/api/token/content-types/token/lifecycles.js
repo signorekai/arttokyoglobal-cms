@@ -38,6 +38,7 @@ module.exports = {
     if (!data.slug) {
       event.params.data.slug = `${slugify(event.params.data.title, {
         lower: true,
+        remove: /[*+~.()'"!:@]/g,
       })}-${uuidv4()}`;
     }
 
@@ -60,6 +61,7 @@ module.exports = {
     if (!event.params.data.slug) {
       event.params.data.slug = `${slugify(event.params.data.title, {
         lower: true,
+        remove: /[*+~.()'"!:@]/g,
       })}-${uuidv4()}`;
     }
 
