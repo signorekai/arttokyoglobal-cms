@@ -13,6 +13,7 @@ module.exports = ({ env }) => [
             "blob:",
             "dl.airtable.com",
             `${env("STORAGE_BUCKET")}.${env("STORAGE_ENDPOINT")}`,
+            `cdn.arttokyoglobal.io`,
           ],
           "media-src": [
             "'self'",
@@ -20,6 +21,7 @@ module.exports = ({ env }) => [
             "blob:",
             "dl.airtable.com",
             `${env("STORAGE_BUCKET")}.${env("STORAGE_ENDPOINT")}`,
+            `cdn.arttokyoglobal.io`,
           ],
           upgradeInsecureRequests: null,
         },
