@@ -35,6 +35,7 @@ module.exports = ({ env }) => ({
           CacheControl: "public, max-age=31536000, immutable",
           Bucket: env("STORAGE_BUCKET"),
         },
+        baseUrl: env("STORAGE_BASE_URL"),
         prefix: env("STORAGE_PREFIX"),
       },
       breakpoints: {
