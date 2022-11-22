@@ -11,6 +11,7 @@
     "build:prod": "NODE_ENV=production strapi build",
     "deploy": "pm2 deploy production",
     "deploy:silent": "pm2 deploy production:silent",
+    "postinstall": "patch-package",
     "strapi": "strapi"
   },
   "devDependencies": {},
