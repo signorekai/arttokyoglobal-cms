@@ -21,7 +21,7 @@ module.exports = ({ strapi }) => ({
     return limiter;
   },
   async downloadImageAndUpload(path, fileName) {
-    console.log(path);
+    console.log("Downloading", path);
     const response = await fetch(path);
     const arrayBuffer = await response.arrayBuffer();
     const img = Buffer.from(arrayBuffer);
