@@ -8,7 +8,7 @@ module.exports = ({ env }) => ({
         name: "memory",
         options: {
           max: 32767,
-          maxAge: 3600,
+          maxAge: 3600000,
         },
       },
       strategy: {
@@ -17,6 +17,7 @@ module.exports = ({ env }) => ({
           "api::collection.collection",
           "api::token.token",
           "api::general-setting.general-setting",
+          "api::about-us.about-us",
         ],
       },
     },
