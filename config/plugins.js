@@ -5,10 +5,12 @@ module.exports = ({ env }) => ({
   "rest-cache": {
     config: {
       provider: {
+        getTimeout: 400,
         name: "memory",
         options: {
-          max: 32767,
+          max: 1000000000,
           maxAge: 3600000,
+          enableXCacheHeaders: true,
         },
       },
       strategy: {
