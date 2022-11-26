@@ -3,46 +3,46 @@ const slugify = require("slugify");
 
 module.exports = {
   async beforeUpdate(event) {
-    const { data, where } = event.params;
-    const { id } = where;
-    const entry = await strapi.entityService.findOne(
-      "api::collection.collection",
-      id
-    );
+    // const { data, where } = event.params;
+    // const { id } = where;
+    // const entry = await strapi.entityService.findOne(
+    //   "api::collection.collection",
+    //   id
+    // );
 
-    if (
-      data.contractAddress &&
-      entry.contractAddress !== data.contractAddress
-    ) {
-      const ABI = await strapi
-        .service("api::collection.web3")
-        .getABI(data.contractAddress);
-      if (ABI) {
-        const updates = await strapi
-          .service("api::collection.web3")
-          .readContract(data.contractAddress, ABI);
+    // if (
+    //   data.contractAddress &&
+    //   entry.contractAddress !== data.contractAddress
+    // ) {
+    //   const ABI = await strapi
+    //     .service("api::collection.web3")
+    //     .getABI(data.contractAddress);
+    //   if (ABI) {
+    //     const updates = await strapi
+    //       .service("api::collection.web3")
+    //       .readContract(data.contractAddress, ABI);
 
-        event.params.data = {
-          ...data,
-          ABI,
-          ...updates,
-        };
-      }
+    //     event.params.data = {
+    //       ...data,
+    //       ABI,
+    //       ...updates,
+    //     };
+    //   }
 
-      if (entry.CID && entry.CID.length > 0 && entry.CID !== null) {
-        const tokens = await strapi
-          .service("api::token.web3")
-          .fetchMetadataAndUpsert({
-            CID: entry.CID,
-            limit: entry.totalTokens,
-            collection: entry,
-          });
+    //   if (entry.CID && entry.CID.length > 0 && entry.CID !== null) {
+    //     const tokens = await strapi
+    //       .service("api::token.web3")
+    //       .fetchMetadataAndUpsert({
+    //         CID: entry.CID,
+    //         limit: entry.totalTokens,
+    //         collection: entry,
+    //       });
 
-        const tokenIDs = tokens.map((token) => token.id);
+    //     const tokenIDs = tokens.map((token) => token.id);
 
-        data.tokens = tokenIDs;
-      }
-    }
+    //     data.tokens = tokenIDs;
+    //   }
+    // }
 
     return event;
   },
