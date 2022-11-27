@@ -9,7 +9,7 @@ module.exports = ({ strapi }) => ({
       ipfsUri: data.fileName,
       title: data.name,
       tokenAttributes: data.rarity ? data.rarity.traits : data.attributes,
-      tokenId: `${data.token_id}`,
+      tokenId: Number(data.token_id),
       mediaIpfsUri: data.image.substring(7),
     };
   },
