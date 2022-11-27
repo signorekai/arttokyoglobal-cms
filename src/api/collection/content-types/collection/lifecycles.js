@@ -75,17 +75,17 @@ module.exports = {
   async afterCreate(event) {
     const { result: entry } = event;
 
-    if (entry.CID && entry.CID.length > 0 && entry.CID !== null) {
-      const tokens = await strapi
-        .service("api::token.web3")
-        .fetchMetadataAndUpsert({
-          CID: entry.CID,
-          limit: entry.totalTokens,
-          collection: entry,
-        });
+    // if (entry.CID && entry.CID.length > 0 && entry.CID !== null) {
+    //   const tokens = await strapi
+    //     .service("api::token.web3")
+    //     .fetchMetadataAndUpsert({
+    //       CID: entry.CID,
+    //       limit: entry.totalTokens,
+    //       collection: entry,
+    //     });
 
-      event.result.tokens = tokens;
-    }
+    //   event.result.tokens = tokens;
+    // }
 
     return event;
   },

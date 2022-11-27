@@ -1,6 +1,7 @@
 const fetch = require("node-fetch");
 const Bottleneck = require("bottleneck");
 const FormData = require("form-data");
+const _ = require("lodash");
 
 module.exports = ({ strapi }) => ({
   parseTokenMetadata(data) {
@@ -15,8 +16,8 @@ module.exports = ({ strapi }) => ({
   },
   getLimiter() {
     const limiter = new Bottleneck({
-      minTime: 100,
-      maxConcurrent: 5,
+      minTime: 50,
+      maxConcurrent: 33,
     });
     return limiter;
   },
@@ -52,10 +53,53 @@ module.exports = ({ strapi }) => ({
         .service("api::token.web3")
         .fetchAllMetadata(CID, limit);
 
+      // cache files
+      const filesToUpload = _.uniqBy(tokensMetadata, "image");
+
+      const imageLimiter = new Bottleneck({
+        minTime: 50,
+        maxConcurrent: 4,
+      });
+
+      const uploadPromises = filesToUpload.map((file) => {
+        const data = strapi.service("api::token.web3").parseTokenMetadata(file);
+        return imageLimiter.schedule(async () => {
+          const strapiMedia = await strapi
+            .service("api::token.web3")
+            .downloadImageAndUpload(
+              `${process.env.IPFS_GATEWAY}/ipfs/${data.mediaIpfsUri}/`,
+              `${data.title}.${data.mediaIpfsUri.split(".")[1]}`
+            );
+
+          const resp = {};
+          resp[file.image] = strapiMedia[0].id;
+          return resp;
+        });
+      });
+
+      const arrayOfUploadedImages = await Promise.all(uploadPromises);
+      let uploadedImages = {};
+      arrayOfUploadedImages.map((i) => {
+        uploadedImages = {
+          ...uploadedImages,
+          ...i,
+        };
+      });
+
+      console.log(uploadedImages);
+
       const limiter = await strapi.service("api::token.web3").getLimiter();
 
       const promises = tokensMetadata.map((metadata) => {
         metadata.minted = Number(metadata.token_id) <= collection.totalSupply;
+
+        const overwrites = {
+          collectionId: collection.id,
+        };
+
+        if (uploadedImages.hasOwnProperty(metadata.image)) {
+          overwrites.image = uploadedImages[metadata.image];
+        }
 
         return limiter.schedule(
           () =>
@@ -63,7 +107,7 @@ module.exports = ({ strapi }) => ({
               if (metadata && metadata.ok) {
                 const result = await strapi
                   .service("api::token.web3")
-                  .upsertMetadata(metadata, { collectionId: collection.id });
+                  .upsertMetadata(metadata, overwrites);
                 return resolve(result);
               } else {
                 return resolve({ success: false, ...metadata });
@@ -83,10 +127,7 @@ module.exports = ({ strapi }) => ({
     console.log(`${CID} - getting all ${limit} JSONs`);
 
     // follow rate limits of Pinata's Public Gateway
-    const limiter = new Bottleneck({
-      minTime: 100,
-      maxConcurrent: 8,
-    });
+    const limiter = await strapi.service("api::token.web3").getLimiter();
 
     const files = [];
     for (var x = 1; x <= limit; x++) {
