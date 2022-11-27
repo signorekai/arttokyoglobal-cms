@@ -85,7 +85,7 @@ module.exports = ({ strapi }) => ({
     // follow rate limits of Pinata's Public Gateway
     const limiter = new Bottleneck({
       minTime: 100,
-      maxConcurrent: 4,
+      maxConcurrent: 8,
     });
 
     const files = [];
