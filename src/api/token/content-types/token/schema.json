@@ -24,9 +24,6 @@
     "tokenAttributes": {
       "type": "json"
     },
-    "tokenId": {
-      "type": "string"
-    },
     "image": {
       "type": "media",
       "multiple": false,
@@ -55,6 +52,9 @@
     "minted": {
       "type": "boolean",
       "default": false
+    },
+    "tokenId": {
+      "type": "integer"
     }
   }
 }
