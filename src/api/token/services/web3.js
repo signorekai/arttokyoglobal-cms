@@ -63,7 +63,7 @@ module.exports = ({ strapi }) => ({
               if (metadata && metadata.ok) {
                 const result = await strapi
                   .service("api::token.web3")
-                  .upsertMetadata(metadata, collection.id);
+                  .upsertMetadata(metadata, { collectionId: collection.id });
                 return resolve(result);
               } else {
                 return resolve({ success: false, ...metadata });
@@ -132,7 +132,7 @@ module.exports = ({ strapi }) => ({
     return json;
   },
 
-  async upsertMetadata(data, collectionId = 0) {
+  async upsertMetadata(data, overwrites = { collectionId: 0 }) {
     const existingToken = await strapi.entityService.findMany(
       "api::token.token",
       {
@@ -145,10 +145,11 @@ module.exports = ({ strapi }) => ({
     );
     const updateData = {
       cachedData: data,
+      ...overwrites,
     };
 
-    if (collectionId !== 0) {
-      updateData.collection = Number(collectionId);
+    if (overwrites.hasOwnProperty("collectionId")) {
+      updateData.collection = Number(overwrites.collectionId);
     }
 
     let result = {};
