@@ -10,7 +10,8 @@
     "build": "strapi build",
     "build:prod": "NODE_ENV=production strapi build",
     "deploy": "pm2 deploy production",
-    "deploy:silent": "pm2 deploy production:silent",
+    "deploy:no-build": "pm2 deploy production:no-build",
+    "deploy:quick": "pm2 deploy production:quick",
     "postinstall": "patch-package",
     "strapi": "strapi"
   },

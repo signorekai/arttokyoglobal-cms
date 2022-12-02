@@ -23,7 +23,7 @@ module.exports = {
       "post-deploy":
         "npm install && npm run build:prod && pm2 startOrRestart ecosystem.config.js --env production",
     },
-    "production:silent": {
+    "production:no-build": {
       key: "/users/alfredlau/.ssh/atg",
       user: "alfred",
       host: ["159.223.85.8"],
@@ -32,6 +32,15 @@ module.exports = {
       path: "/var/www/cms",
       "post-deploy":
         "npm install && pm2 startOrRestart ecosystem.config.js --env production",
+    },
+    "production:quick": {
+      key: "/users/alfredlau/.ssh/atg",
+      user: "alfred",
+      host: ["159.223.85.8"],
+      ref: "origin/main",
+      repo: "git@gitlab.com:alfredlau/art-tokyo-global-cms.git",
+      path: "/var/www/cms",
+      "post-deploy": "pm2 startOrRestart ecosystem.config.js --env production",
     },
   },
 };
