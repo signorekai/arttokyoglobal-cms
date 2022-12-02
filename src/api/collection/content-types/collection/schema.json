@@ -88,6 +88,10 @@
     },
     "whitelistedAddresses": {
       "type": "json"
+    },
+    "showTokens": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
