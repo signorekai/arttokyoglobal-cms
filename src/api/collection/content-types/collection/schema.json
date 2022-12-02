@@ -51,12 +51,6 @@
       "type": "string",
       "unique": true
     },
-    "tokens": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::token.token",
-      "mappedBy": "collection"
-    },
     "description": {
       "type": "customField",
       "options": {

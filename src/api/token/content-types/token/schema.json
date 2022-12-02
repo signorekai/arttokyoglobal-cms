@@ -14,9 +14,8 @@
   "attributes": {
     "collection": {
       "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::collection.collection",
-      "inversedBy": "tokens"
+      "relation": "oneToOne",
+      "target": "api::collection.collection"
     },
     "title": {
       "type": "string"
