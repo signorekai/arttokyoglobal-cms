@@ -17,8 +17,8 @@ module.exports = {
     const { cachedData } = data;
     if (cachedData) {
       event.params.data = {
-        ...event.params.data,
         ...strapi.service("api::token.web3").parseTokenMetadata(cachedData),
+        ...event.params.data,
       };
     }
     if (data.mediaIpfsUri !== entry.mediaIpfsUri && !!entry.image === false) {
