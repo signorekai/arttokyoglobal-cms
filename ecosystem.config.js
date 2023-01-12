@@ -12,6 +12,17 @@ module.exports = {
   ],
   // Deployment Configuration
   deploy: {
+    staging: {
+      key: "/users/alfredlau/.ssh/atg",
+      user: "alfred",
+      host: ["159.223.85.8"],
+      ref: "origin/main",
+      repo: "git@gitlab.com:alfredlau/art-tokyo-global-cms.git",
+      path: "/var/www/cms-goerli",
+      "post-setup": "npm install && npm run build:prod",
+      "post-deploy":
+        "npm install && npm run build:prod && pm2 startOrRestart ecosystem.config.js --env production",
+    },
     production: {
       key: "/users/alfredlau/.ssh/atg",
       user: "alfred",
