@@ -1,6 +1,15 @@
 module.exports = {
   apps: [
     {
+      name: "atg-goerli-cms",
+      script: "npm",
+      args: "start",
+      env_production: {
+        NODE_ENV: "production",
+        AWS_REGION: "ap-south-1",
+      },
+    },
+    {
       name: "atg-cms",
       script: "npm",
       args: "start",
