@@ -11,6 +11,19 @@ const { createCoreController } = require("@strapi/strapi").factories;
 module.exports = createCoreController(
   "api::collection.collection",
   ({ strapi }) => ({
+    async checkWhitelist(ctx) {
+      const result = await super.findOne(ctx);
+      const { address } = ctx.params;
+      const { data } = result;
+      const { whitelistedAddresses } = data.attributes;
+
+      const results = await strapi
+        .service("api::collection.web3")
+        .checkWhitelist(whitelistedAddresses, address);
+
+      ctx.type = "application/json";
+      ctx.body = JSON.stringify(results);
+    },
     async fetchData(ctx) {
       const metadataUpdates = {};
       const result = await super.findOne(ctx);

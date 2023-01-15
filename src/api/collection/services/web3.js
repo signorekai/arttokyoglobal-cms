@@ -5,6 +5,9 @@ const ethers = require("ethers");
 const IPFSGatewayTools = require("@pinata/ipfs-gateway-tools/dist/node");
 const Bottleneck = require("bottleneck");
 
+const keccak256 = require("keccak256");
+const { MerkleTree } = require("merkletreejs");
+
 function tryParseJSONObject(jsonString) {
   try {
     var o = JSON.parse(jsonString);
@@ -17,6 +20,50 @@ function tryParseJSONObject(jsonString) {
 }
 
 module.exports = ({ strapi }) => ({
+  async checkWhitelist(addresses, address) {
+    class Whitelist {
+      constructor(addresses) {
+        this.merkleTree = this.getMerkleTree(addresses);
+      }
+
+      getMerkleTree(addresses) {
+        if (this.merkleTree === undefined) {
+          const leafNodes = addresses.map((addr) => keccak256(addr));
+
+          this.merkleTree = new MerkleTree(leafNodes, keccak256, {
+            sortPairs: true,
+          });
+        }
+
+        return this.merkleTree;
+      }
+
+      getProofForAddress(address) {
+        return this.getMerkleTree().getHexProof(keccak256(address));
+      }
+
+      getRawProofForAddress(address) {
+        return this.getProofForAddress(address)
+          .toString()
+          .replaceAll("'", "")
+          .replaceAll(" ", "");
+      }
+
+      contains(address) {
+        return (
+          this.getMerkleTree().getLeafIndex(Buffer.from(keccak256(address))) >=
+          0
+        );
+      }
+    }
+
+    const whitelist = new Whitelist(addresses);
+
+    return {
+      isUserWhitelisted: whitelist.contains(address),
+      whitelistProof: whitelist.getProofForAddress(address),
+    };
+  },
   async getABI(contractAddress) {
     const response = await fetch(
       `https://${process.env.ETHERSCAN_NETWORK}.etherscan.io/api?module=contract&action=getabi&apikey=${process.env.ETHERSCAN_API_KEY}&address=${contractAddress}`
