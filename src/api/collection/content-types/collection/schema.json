@@ -86,6 +86,25 @@
     "showTokens": {
       "type": "boolean",
       "default": false
+    },
+    "supplyFunction": {
+      "type": "enumeration",
+      "enum": [
+        "totalSupply",
+        "reserveCount"
+      ],
+      "default": "totalSupply"
+    },
+    "whitelistMintFunction": {
+      "type": "enumeration",
+      "enum": [
+        "whitelistMint",
+        "comWhitelistMint"
+      ],
+      "default": "whitelistMint"
+    },
+    "reserveCount": {
+      "type": "integer"
     }
   }
 }
