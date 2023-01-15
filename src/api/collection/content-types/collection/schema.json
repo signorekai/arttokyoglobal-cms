@@ -107,7 +107,8 @@
       "type": "integer"
     },
     "reserveSupply": {
-      "type": "integer"
+      "type": "integer",
+      "default": 0
     }
   }
 }
