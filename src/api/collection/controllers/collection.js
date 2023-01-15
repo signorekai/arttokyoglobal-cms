@@ -21,6 +21,8 @@ module.exports = createCoreController(
         const updates = await strapi
           .service("api::collection.web3")
           .readContract(contractAddress, ABI, {
+            whitelistMintFunction: data.attributes.whitelistMintFunction,
+            supplyFunction: data.attributes.supplyFunction,
             overwriteDescription:
               typeof data.description === "undefined" ||
               data.description.length === 0,
@@ -55,7 +57,10 @@ module.exports = createCoreController(
       if (ABI) {
         const updatedInfo = await strapi
           .service("api::collection.web3")
-          .readContract(contractAddress, ABI);
+          .readContract(contractAddress, ABI, {
+            whitelistMintFunction: data.attributes.whitelistMintFunction,
+            supplyFunction: data.attributes.supplyFunction,
+          });
 
         updates.data = {
           ...updatedInfo,
@@ -138,7 +143,10 @@ module.exports = createCoreController(
               console.log(`${collection.contractAddress} - fetching`);
               const updatedContract = await strapi
                 .service("api::collection.web3")
-                .readContract(contractAddress, ABI);
+                .readContract(contractAddress, ABI, {
+                  whitelistMintFunction: collection.whitelistMintFunction,
+                  supplyFunction: collection.supplyFunction,
+                });
 
               const results = await strapi.entityService.update(
                 "api::collection.collection",

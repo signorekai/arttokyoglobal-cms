@@ -29,12 +29,16 @@ module.exports = ({ strapi }) => ({
   async readContract(contractAddress, ABI, options) {
     const opts = {
       overwriteDescription: false,
+      supplyFunction: "totalSupply",
+      whitelistMintFunction: "whitelistMint",
       ...options,
     };
     const provider = new ethers.providers.AlchemyProvider(
       process.env.ETH_NETWORK,
       process.env.ALCHEMY_API_KEY
     );
+
+    console.log(10, opts);
 
     const updatedInfo = {};
 
@@ -76,6 +80,10 @@ module.exports = ({ strapi }) => ({
         updatedInfo.totalSupply = Number(await contract.totalSupply());
       }
 
+      if (contract.reserveCount) {
+        updatedInfo.reserveCount = Number(await contract.reserveCount());
+      }
+
       if (contract.getStartDate) {
         updatedInfo.startDate = Number(await contract.getStartDate());
       }
@@ -88,16 +96,17 @@ module.exports = ({ strapi }) => ({
         }
       }
 
-      if (contract.whitelistMintEnabled) {
-        updatedInfo.whitelistMintEnabled =
-          await contract.whitelistMintEnabled();
+      if (contract[`${opts.whitelistMintFunction}Enabled`]) {
+        updatedInfo.whitelistMintEnabled = await contract[
+          `${opts.whitelistMintFunction}Enabled`
+        ]();
 
         if (updatedInfo.whitelistMintEnabled === true) {
           updatedInfo.status = "WhitelistOnly";
         }
       }
 
-      if (updatedInfo.totalSupply === updatedInfo.maxSupply) {
+      if (updatedInfo[opts.supplyFunction] === updatedInfo.maxSupply) {
         updatedInfo.status = "FinishedMinting";
       }
     }

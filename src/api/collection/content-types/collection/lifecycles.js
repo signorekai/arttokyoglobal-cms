@@ -20,7 +20,10 @@ module.exports = {
       if (ABI) {
         const updates = await strapi
           .service("api::collection.web3")
-          .readContract(data.contractAddress, ABI);
+          .readContract(data.contractAddress, ABI, {
+            whitelistMintFunction: data.whitelistMintFunction,
+            supplyFunction: data.supplyFunction,
+          });
 
         event.params.data = {
           ...data,
@@ -54,7 +57,10 @@ module.exports = {
     if (ABI) {
       const updates = await strapi
         .service("api::collection.web3")
-        .readContract(data.contractAddress, ABI);
+        .readContract(data.contractAddress, ABI, {
+          whitelistMintFunction: data.whitelistMintFunction,
+          supplyFunction: data.supplyFunction,
+        });
 
       event.params.data = {
         ...data,
