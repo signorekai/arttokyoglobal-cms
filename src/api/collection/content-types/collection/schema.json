@@ -105,6 +105,9 @@
     },
     "reserveCount": {
       "type": "integer"
+    },
+    "reserveSupply": {
+      "type": "integer"
     }
   }
 }

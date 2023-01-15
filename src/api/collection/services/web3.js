@@ -99,10 +99,6 @@ module.exports = ({ strapi }) => ({
         updatedInfo.title = await contract.name();
       }
 
-      if (contract.maxSupply) {
-        updatedInfo.totalTokens = Number(await contract.maxSupply());
-      }
-
       if (contract.artistId) {
         updatedInfo.artist = Number(await contract.artistId());
       }
@@ -124,11 +120,23 @@ module.exports = ({ strapi }) => ({
       }
 
       if (contract.totalSupply) {
+        // for minting
         updatedInfo.totalSupply = Number(await contract.totalSupply());
       }
 
+      if (contract.maxSupply) {
+        // total mintable
+        updatedInfo.totalTokens = Number(await contract.maxSupply());
+      }
+
       if (contract.reserveCount) {
+        // for community reserving
         updatedInfo.reserveCount = Number(await contract.reserveCount());
+      }
+
+      if (contract.reserveSupply) {
+        // total reserveable
+        updatedInfo.reserveSupply = Number(await contract.reserveSupply());
       }
 
       if (contract.getStartDate) {
@@ -153,8 +161,18 @@ module.exports = ({ strapi }) => ({
         }
       }
 
-      if (updatedInfo[opts.supplyFunction] === updatedInfo.maxSupply) {
-        updatedInfo.status = "FinishedMinting";
+      switch (opts.supplyFunction) {
+        case "totalSupply":
+          if (updatedInfo.totalSupply === updatedInfo.maxSupply) {
+            updatedInfo.status = "FinishedMinting";
+          }
+          break;
+
+        case "reserveCount":
+          if (updatedInfo.reserveCount === updatedInfo.reserveSupply) {
+            updatedInfo.status = "FinishedMinting";
+          }
+          break;
       }
     }
 
